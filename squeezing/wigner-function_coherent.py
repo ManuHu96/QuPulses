@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '/Users/emanuel/Uni/Projects/Parametric_quantum_amplification/Codebase/QuPulses')
+
 import numpy as np
 import qutip as qt
 from scipy.integrate import quad
@@ -38,8 +41,37 @@ G = lambda omega: gamma_N_minus(omega - Delta).conjugate()
 
 
 def main():
-    density_matrix = covariance_matrix_density_matrix()
+    #density_matrix = covariance_matrix_density_matrix()
+    emanuel()
 
+def emanuel():
+    """ TODO: Docstring
+
+    """
+    zeta_u, xi_u, f_u, g_u, v_l = get_parameters()
+    v = lambda omega: np.sqrt(abs(omega)) * (alpha * zeta_u * f_u(omega) + np.conjugate(alpha) * xi_u * g_u(omega)) / v_l
+
+    # Use this mode to find the vacuum state using the Bloch-Messiah method
+    f_temp = lambda omega: F(omega).conjugate() * v(omega)
+    g_temp = lambda omega: gamma_N_minus(Delta - omega) * v(2 * Delta - omega).conjugate()
+
+    zeta_v = np.sqrt(overlap(f_temp, f_temp))
+    f_v = lambda x: f_temp(x) / zeta_v
+    xi_v = np.sqrt(overlap(g_temp, g_temp))
+    g_v = lambda x: g_temp(x) / xi_v
+
+    overlap_uf = overlap(u, f_temp)
+    overlap_ug = overlap(u, g_temp)
+    
+    A = np.matrix([
+            [np.real(overlap_uf + overlap_ug), np.imag(overlap_uf + overlap_ug)],
+            [np.imag(-overlap_uf + overlap_ug), np.real(overlap_uf - overlap_ug)]])
+
+    Omega_2 = np.matrix([[0, 1], [-1, 0]])
+
+    print(A)
+    
+    print(A.transpose()@Omega_2@A / (abs(overlap_uf)**2 - abs(overlap_ug)**2))
 
 def wigner_function():
     zeta_u, xi_u, f_u, g_u, v_l = get_parameters()

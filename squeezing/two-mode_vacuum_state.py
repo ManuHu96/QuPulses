@@ -8,6 +8,9 @@ import qutip as qt
 from scipy.integrate import quad
 from scipy.interpolate import CubicSpline
 
+import sys
+sys.path.insert(0, '/Users/emanuel/Uni/Projects/Parametric_quantum_amplification/Codebase/QuPulses')
+
 from util import math_functions as m
 from util import physics_functions as ph
 

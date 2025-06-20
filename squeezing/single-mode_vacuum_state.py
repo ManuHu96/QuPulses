@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '/Users/emanuel/Uni/Projects/Parametric_quantum_amplification/Codebase/QuPulses')
+
 import numpy as np
 import qutip as qt
 from scipy.integrate import quad
@@ -132,6 +135,10 @@ def squeezed_vacuum_density_matrix():
     cov = A.T @ A + B @ B.T
     cov_inv = np.linalg.inv(cov)
     det_cov = np.linalg.det(cov)
+
+    cov_therm_A = np.linalg.inv(A) @ B @ B.T @ np.linalg.inv(A).T
+    U,s,Vh = np.linalg.svd(cov_therm_A)
+    print("s: ", s)
 
     alpha_vec = lambda x1, y1: np.array([[x1, y1]]).T
 

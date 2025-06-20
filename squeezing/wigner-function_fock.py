@@ -1,4 +1,7 @@
 #! python3
+import sys
+sys.path.insert(0, '/Users/emanuel/Uni/Projects/Parametric_quantum_amplification/Codebase/QuPulses')
+
 from typing import List, Tuple, Callable
 import time
 
