@@ -11,7 +11,6 @@ from scipy.fft import fft, fftshift, ifft, ifftshift
 from typing import Callable, List, Tuple
 import warnings
 
-
 def exponential(g: float) -> Callable[[float], float]:
     return lambda t: np.exp(-g**2*t/2) * g
 
